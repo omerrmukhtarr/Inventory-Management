@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:your_project_name/src/card.dart';
 
 import 'settings_controller.dart';
 
@@ -10,6 +11,8 @@ class SettingsView extends StatelessWidget {
   const SettingsView({Key? key, required this.controller}) : super(key: key);
 
   static const routeName = '/settings';
+   static const card = '/card';
+
 
   final SettingsController controller;
 
