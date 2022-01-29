@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +13,8 @@ class AddProduct extends StatefulWidget {
 }
 
 class _AddProductState extends State<AddProduct> {
-  DateTime _dateTime = DateTime.now();
-  DateTime _dateTime2 = DateTime.now();
+  DateTime _releaseDate = DateTime.now();
+  DateTime _expireDate = DateTime.now();
   // final ImagePicker _picker = ImagePicker();
 
   void _showDatePicker() {
@@ -24,7 +25,7 @@ class _AddProductState extends State<AddProduct> {
             lastDate: DateTime(2025))
         .then((value) {
       setState(() {
-        _dateTime = value!;
+        _releaseDate = value!;
       });
     });
   }
@@ -37,7 +38,7 @@ class _AddProductState extends State<AddProduct> {
             lastDate: DateTime(2025))
         .then((value) {
       setState(() {
-        _dateTime2 = value!;
+        _expireDate = value!;
       });
     });
   }
@@ -53,10 +54,17 @@ class _AddProductState extends State<AddProduct> {
   String? scanResult;
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _categoryController = TextEditingController();
+    final TextEditingController _nameController = TextEditingController();
+    final TextEditingController _infoController = TextEditingController();
+    final TextEditingController _quantityController = TextEditingController();
+    final TextEditingController _costController = TextEditingController();
+    final TextEditingController _priceController = TextEditingController();
+
     return Scaffold(
-        // appBar: AppBar(
-        //   backgroundColor: Colors.transparent,
-        // ),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+        ),
         body: Padding(
             padding: EdgeInsets.only(bottom: 10, top: 10, left: 10, right: 10),
             child: Form(
@@ -87,52 +95,110 @@ class _AddProductState extends State<AddProduct> {
                         ),
                       ),
                     ),
-                    Card(
-                      elevation: 5,
-                      child: ListTile(
-                        title: Text('Category'),
-                      ),
-                    ),
-                    Card(
-                      elevation: 5,
-                      child: ListTile(
-                        title: Text('product name'),
-                      ),
-                    ),
-                    Card(
-                      elevation: 5,
-                      child: ListTile(
-                        title: Text('Product Desc'),
-                      ),
-                    ),
-                    Card(
-                      elevation: 5,
-                      child: ListTile(
-                        title: Text('Product_Quantity'),
-                      ),
-                    ),
-                    Card(
-                      elevation: 5,
-                      child: ListTile(
-                        title: Text('Product_Cost'),
-                      ),
-                    ),
-                    Card(
-                      elevation: 5,
-                      child: ListTile(
-                        title: Text('Product_Price'),
+                    Padding(
+                      padding:
+                          EdgeInsets.only(top: 8, bottom: 8, left: 0, right: 0),
+                      child: Form(
+                        child: Column(
+                          children: [
+                            Card(
+                              child: TextField(
+                                controller: _categoryController,
+                                decoration: InputDecoration(
+                                  labelText: 'Category',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey.shade200, width: 2),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Card(
+                              child: TextField(
+                                controller: _nameController,
+                                decoration: InputDecoration(
+                                  labelText: 'Product Name',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey.shade200, width: 2),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Card(
+                              child: TextField(
+                                controller: _infoController,
+                                decoration: InputDecoration(
+                                  labelText: 'Product Info',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey.shade200, width: 2),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Card(
+                              child: TextField(
+                                controller: _quantityController,
+                                onSubmitted: (value) => TextInputAction.next,
+                                decoration: InputDecoration(
+                                  labelText: 'Quantity',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey.shade200, width: 2),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Card(
+                              child: TextField(
+                                controller: _costController,
+                                decoration: InputDecoration(
+                                  labelText: 'Cost',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey.shade200, width: 2),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Card(
+                              child: TextField(
+                                controller: _priceController,
+                                decoration: InputDecoration(
+                                  labelText: 'Price',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey.shade200, width: 2),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     Column(
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Flexible(
                               child: Card(
                                 elevation: 5,
                                 child: ListTile(
-                                  title: Text(_dateTime.toString()),
+                                  title: Center(
+                                    child: Text(
+                                      'Release:  ' +
+                                          _releaseDate.year.toString() +
+                                          '/' +
+                                          _releaseDate.month.toString() +
+                                          '/' +
+                                          _releaseDate.day.toString(),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -146,13 +212,24 @@ class _AddProductState extends State<AddProduct> {
                           ],
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Flexible(
                               child: Card(
                                 elevation: 5,
                                 child: ListTile(
-                                  title: Text(_dateTime2.toString()),
+                                  title: Center(
+                                    child: Text(
+                                      'Expire:  ' +
+                                          _expireDate.year.toString() +
+                                          '/' +
+                                          _expireDate.month.toString() +
+                                          '/' +
+                                          _expireDate.day.toString(),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -184,7 +261,10 @@ class _AddProductState extends State<AddProduct> {
                                             setState(() {});
                                             // pick an image from the gallery
                                           },
-                                          icon: Icon(Icons.image)),
+                                          icon: Icon(
+                                            Icons.image_rounded,
+                                            size: 60,
+                                          )),
                                       height: 120,
                                       width: 120,
                                       decoration:
@@ -206,7 +286,34 @@ class _AddProductState extends State<AddProduct> {
                                       ),
                                     ),
                               ElevatedButton(
-                                  onPressed: () {}, child: Text('Add Product')),
+                                  onPressed: () async {
+                                    await FirebaseFirestore.instance
+                                        .collection('product')
+                                        .add({
+                                      'barcode': '',
+                                      'category':
+                                          _categoryController.value.text,
+                                      'name': _nameController.value.text,
+                                      'desc': _infoController.value.text,
+                                      'quantity':
+                                          _quantityController.value.text,
+                                      'cost': _costController.value.text,
+                                      'price': _priceController.value.text,
+                                      'release': 'Release:  ' +
+                                          _releaseDate.year.toString() +
+                                          '/' +
+                                          _releaseDate.month.toString() +
+                                          '/' +
+                                          _releaseDate.day.toString(),
+                                      'expire': 'Expire:  ' +
+                                          _expireDate.year.toString() +
+                                          '/' +
+                                          _expireDate.month.toString() +
+                                          '/' +
+                                          _expireDate.day.toString(),
+                                    });
+                                  },
+                                  child: Text('Add Product')),
                               SizedBox(
                                 height: 15,
                               ),
