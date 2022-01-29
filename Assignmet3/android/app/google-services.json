@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "304443538765",
+    "firebase_url": "https://bus-station-75c61-default-rtdb.firebaseio.com",
+    "project_id": "bus-station-75c61",
+    "storage_bucket": "bus-station-75c61.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:304443538765:android:ee58ecbe324c12c6858b04",
+        "android_client_info": {
+          "package_name": "com.example.bus_station"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "304443538765-m0ukpcmatu8rbfqtn2j0kbv2nd06utii.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRpJ65Y9HquBTIfWu_RRmmnLZyCUgHre4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "304443538765-m0ukpcmatu8rbfqtn2j0kbv2nd06utii.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "304443538765-3630b6co4qdpfvl3jg0p8aoduujj675v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.busStationcom.example.busStation"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:304443538765:android:8f3d2a69cd0a42a8858b04",
+        "android_client_info": {
+          "package_name": "com.example.your_project_name"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "304443538765-m0ukpcmatu8rbfqtn2j0kbv2nd06utii.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRpJ65Y9HquBTIfWu_RRmmnLZyCUgHre4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "304443538765-m0ukpcmatu8rbfqtn2j0kbv2nd06utii.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "304443538765-3630b6co4qdpfvl3jg0p8aoduujj675v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.busStationcom.example.busStation"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
