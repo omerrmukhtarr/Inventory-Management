@@ -312,6 +312,12 @@ class _AddProductState extends State<AddProduct> {
                                           '/' +
                                           _expireDate.day.toString(),
                                     });
+                                    _categoryController.clear();
+                                    _nameController.clear();
+                                    _priceController.clear();
+                                    _infoController.clear();
+                                    _costController.clear();
+                                    _quantityController.clear();
                                   },
                                   child: Text('Add Product')),
                               SizedBox(
