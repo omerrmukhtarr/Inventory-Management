@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class _AddProductState extends State<AddProduct> {
   // final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   String? _theDlUrl;
   bool _isLoading = false;
-
+  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   final _formGlobalKey = GlobalKey<FormState>();
 
   String? scanResult;
@@ -287,6 +288,14 @@ class _AddProductState extends State<AddProduct> {
                                     ),
                               ElevatedButton(
                                   onPressed: () async {
+                                    //upload the selected image
+                                    // await _firebaseStorage
+                                    //     .ref()
+                                    //     .putFile(_theImageFile)
+                                    //     .then((p) async {
+                                    //   _theDlUrl = await p.ref.getDownloadURL();
+                                    //   debugPrint("dl =======> " + _theDlUrl!);
+                                    // });
                                     await FirebaseFirestore.instance
                                         .collection('product')
                                         .add({
@@ -311,6 +320,7 @@ class _AddProductState extends State<AddProduct> {
                                           _expireDate.month.toString() +
                                           '/' +
                                           _expireDate.day.toString(),
+                                      'imgUrl': uploadTheSelectedFile(),
                                     });
                                     _categoryController.clear();
                                     _nameController.clear();
@@ -348,5 +358,18 @@ class _AddProductState extends State<AddProduct> {
     }
     if (!mounted) return;
     setState(() => this.scanResult = scanResult);
+  }
+
+  Future<String?> uploadTheSelectedFile() async {
+    //selected image as file
+    File _theImageFile = File(_selectedProfileImg!.path);
+
+    //upload the selected image
+    await _firebaseStorage.ref().putFile(_theImageFile).then((p) async {
+      _theDlUrl = await p.ref.getDownloadURL();
+    });
+    return _theDlUrl;
+    //todo remove this if for production
+    //recieve the downloadURL for the image
   }
 }

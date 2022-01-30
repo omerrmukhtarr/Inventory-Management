@@ -151,6 +151,62 @@ class _SearchPageState extends State<SearchPage> {
                                       Expanded(
                                         flex: 5,
                                         child: ListTile(
+                                          onTap: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: Text("Products"),
+                                                  actions: [
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            Icon(Icons
+                                                                .remove_red_eye_outlined),
+                                                            Text('150')
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                            width: 150,
+                                                            height: 150,
+                                                            child: Image.asset(
+                                                              "assets/1.png",
+                                                              fit: BoxFit
+                                                                  .contain,
+                                                              width: 150,
+                                                              height: 150,
+                                                            )),
+                                                        Text("Cost: " +
+                                                            productList[index]
+                                                                .cost
+                                                                .toString()),
+                                                        Text("Desc: " +
+                                                            productList[index]
+                                                                .desc
+                                                                .toString()),
+                                                        Text("Release: " +
+                                                            productList[index]
+                                                                .release
+                                                                .toString()),
+                                                        Text("Exp: " +
+                                                            productList[index]
+                                                                .exp
+                                                                .toString()),
+                                                        Text("Price: " +
+                                                            productList[index]
+                                                                .price
+                                                                .toString()),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
                                           title: Text(productList[index]
                                               .name
                                               .toString()),
@@ -219,7 +275,29 @@ class _SearchPageState extends State<SearchPage> {
                 )),
               ),
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const SimpleDialog(
+                          children: [
+                            SimpleDialogOption(
+                              child: Text('Export as PDF'),
+                            ),
+                            SimpleDialogOption(
+                              child: Text('Export as CSV'),
+                            ),
+                            SimpleDialogOption(
+                              child: Text('Export as JSON'),
+                            ),
+                            SimpleDialogOption(
+                              child: Text('Export as TEXT'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
                   icon: Icon(
                     Icons.import_export,
                     size: 30,
