@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter/widgets.dart';
 import 'package:your_project_name/src/card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:your_project_name/src/data_model.dart';
+
+import 'package:your_project_name/src/detailrd_pop_up.dart';
+
 
 // Search Page
 class SearchPage extends StatefulWidget {
@@ -17,6 +21,41 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
+    Future openDialog() => showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("Products"),
+            actions: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.remove_red_eye_outlined),
+                      Text('150')
+                    ],
+                  ),
+                  SizedBox(
+                      width: 150,
+                      height: 150,
+                      child: Image.asset(
+                        "assets/1.png",
+                        fit: BoxFit.contain,
+                        width: 150,
+                        height: 150,
+                      )),
+                  Text("Cost: " + ""),
+                  Text("Name: " + ""),
+                  Text("Desc: " + ""),
+                  Text("Exp: " + ""),
+                  Text("Price: " + ""),
+                  Text("Quantity: " + ""),
+                  Text("Release: " + ""),
+                ],
+              ),
+            ],
+          ),
+        );
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -64,6 +103,7 @@ class _SearchPageState extends State<SearchPage> {
                 ],
               ),
             ),
+
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
@@ -267,5 +307,52 @@ class _SearchPageState extends State<SearchPage> {
             ],
           ),
         ));
+
+            ElevatedButton(
+              onPressed: () {
+                // return showDialog(context: context, builder: builder)
+                openDialog();
+              },
+              child: Material(
+                color: Colors.lightBlueAccent,
+                child: SizedBox(width: 150, height: 70),
+              ),
+            ),
+            FloatingActionButton(
+              backgroundColor: Colors.red[900],
+              child: null,
+              shape: CircleBorder(
+                  side: BorderSide(color: Colors.grey.shade800, width: 5)),
+              onPressed: () {},
+            ),
+          ],
+        ),
+      ),
+      //bottom Navigation Bar
+
+      bottomNavigationBar: BottomAppBar(
+        child: BottomNavigationBar(
+          backgroundColor: Colors.grey[600],
+          items: [
+            BottomNavigationBarItem(
+              icon: const Icon(
+                Icons.list,
+                color: Colors.black,
+              ),
+              title: const Text(
+                'List',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.import_export, color: Colors.black),
+                title: Text('Export', style: TextStyle(color: Colors.black))),
+          ],
+        ),
+      ),
+
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
+
   }
 }
