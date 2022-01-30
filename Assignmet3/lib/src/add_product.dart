@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +48,7 @@ class _AddProductState extends State<AddProduct> {
   // final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   String? _theDlUrl;
   bool _isLoading = false;
-  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+
   final _formGlobalKey = GlobalKey<FormState>();
   final TextEditingController _categoryController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -286,7 +285,10 @@ class _AddProductState extends State<AddProduct> {
                                     ),
                               ElevatedButton(
                                   onPressed: () async {
+
+
                                     await uploadImage();
+
                                     await FirebaseFirestore.instance
                                         .collection('product')
                                         .add({
@@ -311,7 +313,10 @@ class _AddProductState extends State<AddProduct> {
                                           _expireDate.month.toString() +
                                           '/' +
                                           _expireDate.day.toString(),
+
+
                                       'imgUrl': _theDlUrl,
+
                                     });
                                     _categoryController.clear();
                                     _nameController.clear();
@@ -351,6 +356,7 @@ class _AddProductState extends State<AddProduct> {
     setState(() => this.scanResult = scanResult);
   }
 
+
   Future<String?> uploadImage() async {
     File _theImageFile = File(_selectedProfileImg!.path);
     try {
@@ -366,4 +372,5 @@ class _AddProductState extends State<AddProduct> {
     }
     return _theDlUrl;
   }
+
 }
