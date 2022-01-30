@@ -312,7 +312,7 @@ class _AddProductState extends State<AddProduct> {
                                           _expireDate.month.toString() +
                                           '/' +
                                           _expireDate.day.toString(),
-                                      'imgUrl': _theDlUrl,
+                                      'url': _theDlUrl,
                                     });
                                     _categoryController.clear();
                                     _nameController.clear();
