@@ -51,17 +51,15 @@ class _AddProductState extends State<AddProduct> {
   bool _isLoading = false;
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   final _formGlobalKey = GlobalKey<FormState>();
-
+  final TextEditingController _categoryController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _infoController = TextEditingController();
+  final TextEditingController _quantityController = TextEditingController();
+  final TextEditingController _costController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
   String? scanResult;
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _categoryController = TextEditingController();
-    final TextEditingController _nameController = TextEditingController();
-    final TextEditingController _infoController = TextEditingController();
-    final TextEditingController _quantityController = TextEditingController();
-    final TextEditingController _costController = TextEditingController();
-    final TextEditingController _priceController = TextEditingController();
-
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -87,7 +85,7 @@ class _AddProductState extends State<AddProduct> {
                               ),
                             ),
                             IconButton(
-                                onPressed: scanBarcode,
+                                onPressed: () => scanBarcode(),
                                 icon: Icon(
                                   Icons.qr_code_2,
                                   size: 50,
@@ -288,14 +286,7 @@ class _AddProductState extends State<AddProduct> {
                                     ),
                               ElevatedButton(
                                   onPressed: () async {
-                                    //upload the selected image
-                                    // await _firebaseStorage
-                                    //     .ref()
-                                    //     .putFile(_theImageFile)
-                                    //     .then((p) async {
-                                    //   _theDlUrl = await p.ref.getDownloadURL();
-                                    //   debugPrint("dl =======> " + _theDlUrl!);
-                                    // });
+                                    await uploadImage();
                                     await FirebaseFirestore.instance
                                         .collection('product')
                                         .add({
@@ -320,7 +311,7 @@ class _AddProductState extends State<AddProduct> {
                                           _expireDate.month.toString() +
                                           '/' +
                                           _expireDate.day.toString(),
-                                      'imgUrl': uploadTheSelectedFile(),
+                                      'imgUrl': _theDlUrl,
                                     });
                                     _categoryController.clear();
                                     _nameController.clear();
@@ -360,16 +351,19 @@ class _AddProductState extends State<AddProduct> {
     setState(() => this.scanResult = scanResult);
   }
 
-  Future<String?> uploadTheSelectedFile() async {
-    //selected image as file
+  Future<String?> uploadImage() async {
     File _theImageFile = File(_selectedProfileImg!.path);
-
-    //upload the selected image
-    await _firebaseStorage.ref().putFile(_theImageFile).then((p) async {
-      _theDlUrl = await p.ref.getDownloadURL();
-    });
+    try {
+      await _firebaseStorage
+          .ref()
+          .child('Product/${_nameController.value.text}')
+          .putFile(_theImageFile)
+          .then((p) async {
+        _theDlUrl = await p.ref.getDownloadURL();
+      });
+    } catch (e) {
+      print(e);
+    }
     return _theDlUrl;
-    //todo remove this if for production
-    //recieve the downloadURL for the image
   }
 }
