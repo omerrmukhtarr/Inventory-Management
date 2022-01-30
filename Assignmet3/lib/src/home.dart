@@ -9,7 +9,6 @@ import 'package:your_project_name/src/data_model.dart';
 
 import 'package:your_project_name/src/detailrd_pop_up.dart';
 
-
 // Search Page
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -78,32 +77,16 @@ class _SearchPageState extends State<SearchPage> {
                       // controller: _searchController,
                       decoration: InputDecoration(
                           label: Text('search'), hintText: 'name'),
-                      onChanged: (value) {
-                        // if (value.length < 1) {
-                        //   setState(() {
-                        //     canSearch = false;
-                        //     debugPrint(canSearch.toString());
-                        //   });
-                        // } else {
-                        //   setState(() {
-                        //     canSearch = true;
-                        //     debugPrint(canSearch.toString());
-                        //   });
-                        // }
-                      },
+                      onChanged: (value) {},
                     ),
                   ),
                   IconButton(
                     onPressed: () {},
-                    // onPressed: canSearch == true
-                    //     ? whatShouldIDO
-                    //     : null, //if cansearch true return something, else return null
                     icon: Icon(Icons.search),
                   )
                 ],
               ),
             ),
-
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
@@ -307,52 +290,5 @@ class _SearchPageState extends State<SearchPage> {
             ],
           ),
         ));
-
-            ElevatedButton(
-              onPressed: () {
-                // return showDialog(context: context, builder: builder)
-                openDialog();
-              },
-              child: Material(
-                color: Colors.lightBlueAccent,
-                child: SizedBox(width: 150, height: 70),
-              ),
-            ),
-            FloatingActionButton(
-              backgroundColor: Colors.red[900],
-              child: null,
-              shape: CircleBorder(
-                  side: BorderSide(color: Colors.grey.shade800, width: 5)),
-              onPressed: () {},
-            ),
-          ],
-        ),
-      ),
-      //bottom Navigation Bar
-
-      bottomNavigationBar: BottomAppBar(
-        child: BottomNavigationBar(
-          backgroundColor: Colors.grey[600],
-          items: [
-            BottomNavigationBarItem(
-              icon: const Icon(
-                Icons.list,
-                color: Colors.black,
-              ),
-              title: const Text(
-                'List',
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.import_export, color: Colors.black),
-                title: Text('Export', style: TextStyle(color: Colors.black))),
-          ],
-        ),
-      ),
-
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    );
-
   }
 }
