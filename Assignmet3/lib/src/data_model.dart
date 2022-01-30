@@ -6,12 +6,13 @@ class Product {
   String? quantity;
   String? cost;
   String? price;
-
+  String? url;
   String? release;
   String? exp;
 
   Product(
       {this.barcode,
+      this.url,
       this.category,
       this.name,
       this.desc,
@@ -31,6 +32,7 @@ class Product {
         price: json["price"],
         release: json["release"],
         exp: json["expire"],
+        url: json["url"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -43,5 +45,6 @@ class Product {
         "price": price,
         "release": release,
         "expire": exp,
+        "url": url,
       };
 }

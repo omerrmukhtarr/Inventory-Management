@@ -20,41 +20,6 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
-    Future openDialog() => showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text("Products"),
-            actions: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.remove_red_eye_outlined),
-                      Text('150')
-                    ],
-                  ),
-                  SizedBox(
-                      width: 150,
-                      height: 150,
-                      child: Image.asset(
-                        "assets/1.png",
-                        fit: BoxFit.contain,
-                        width: 150,
-                        height: 150,
-                      )),
-                  Text("Cost: " + ""),
-                  Text("Name: " + ""),
-                  Text("Desc: " + ""),
-                  Text("Exp: " + ""),
-                  Text("Price: " + ""),
-                  Text("Quantity: " + ""),
-                  Text("Release: " + ""),
-                ],
-              ),
-            ],
-          ),
-        );
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -112,122 +77,43 @@ class _SearchPageState extends State<SearchPage> {
                   return ListView.builder(
                     itemCount: productList.length,
                     itemBuilder: (context, index) {
+                      PopUp popUp = PopUp(
+                        context: context,
+                        cost: productList[index].cost.toString(),
+                        price: productList[index].price.toString(),
+                        release: productList[index].release.toString(),
+                        desc: productList[index].desc.toString(),
+                        exp: productList[index].exp.toString(),
+                        url: productList[index].url,
+                      );
                       return Card(
-                        child: Container(
-                          height: 80,
-                          color: Colors.white,
-                          child: Row(
-                            children: [
-                              Center(
-                                child: Padding(
-                                  padding: EdgeInsets.all(50),
-                                  child: Expanded(
-                                    child: Image.asset("assets/1.png"),
-                                    flex: 1,
-                                  ),
-                                ),
+                        child: ListTile(
+                          leading: Image.network(
+                            productList[index].url ??
+                                "https://media.istockphoto.com/vectors/abstract-black-stripes-diagonal-background-vector-id1294603953?k=20&m=1294603953&s=612x612&w=0&h=KLAV73oMUFA2ucWMMTOdXT8Vn4LVUsh6NTiXRmlX5ZA=",
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.scaleDown,
+                          ),
+                          onTap: () {
+                            popUp.openDialog();
+                          },
+                          title: Text(productList[index].name.toString()),
+                          subtitle:
+                              Text(productList[index].category.toString()),
+                          trailing: Material(
+                            color: Colors.lightBlueAccent[200],
+                            child: SizedBox(
+                              height: 100.0,
+                              width: 100.0,
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                    productList[index].quantity.toString()),
                               ),
-                              Expanded(
-                                child: Container(
-                                  color: Colors.white,
-                                  alignment: Alignment.topLeft,
-                                  child: Column(
-                                    children: [
-                                      Expanded(
-                                        flex: 5,
-                                        child: ListTile(
-                                          onTap: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return AlertDialog(
-                                                  title: Text("Products"),
-                                                  actions: [
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Icon(Icons
-                                                                .remove_red_eye_outlined),
-                                                            Text('150')
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                            width: 150,
-                                                            height: 150,
-                                                            child: Image.asset(
-                                                              "assets/1.png",
-                                                              fit: BoxFit
-                                                                  .contain,
-                                                              width: 150,
-                                                              height: 150,
-                                                            )),
-                                                        Text("Cost: " +
-                                                            productList[index]
-                                                                .cost
-                                                                .toString()),
-                                                        Text("Desc: " +
-                                                            productList[index]
-                                                                .desc
-                                                                .toString()),
-                                                        Text("Release: " +
-                                                            productList[index]
-                                                                .release
-                                                                .toString()),
-                                                        Text("Exp: " +
-                                                            productList[index]
-                                                                .exp
-                                                                .toString()),
-                                                        Text("Price: " +
-                                                            productList[index]
-                                                                .price
-                                                                .toString()),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                            );
-                                          },
-                                          title: Text(productList[index]
-                                              .name
-                                              .toString()),
-                                          subtitle: Text(productList[index]
-                                              .category
-                                              .toString()),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                flex: 3,
-                              ),
-                              Expanded(
-                                child: Container(
-                                  height: 100,
-                                  width: 100,
-                                  color: Colors.grey,
-                                  child: Center(
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                            child: Text(
-                                          productList[index].quantity ?? '',
-                                          textAlign: TextAlign.center,
-                                        ))
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
-                        elevation: 8,
-                        margin: EdgeInsets.all(10),
                       );
                     },
                   );
