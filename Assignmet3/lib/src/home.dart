@@ -77,26 +77,11 @@ class _SearchPageState extends State<SearchPage> {
                       // controller: _searchController,
                       decoration: InputDecoration(
                           label: Text('search'), hintText: 'name'),
-                      onChanged: (value) {
-                        // if (value.length < 1) {
-                        //   setState(() {
-                        //     canSearch = false;
-                        //     debugPrint(canSearch.toString());
-                        //   });
-                        // } else {
-                        //   setState(() {
-                        //     canSearch = true;
-                        //     debugPrint(canSearch.toString());
-                        //   });
-                        // }
-                      },
+                      onChanged: (value) {},
                     ),
                   ),
                   IconButton(
                     onPressed: () {},
-                    // onPressed: canSearch == true
-                    //     ? whatShouldIDO
-                    //     : null, //if cansearch true return something, else return null
                     icon: Icon(Icons.search),
                   )
                 ],

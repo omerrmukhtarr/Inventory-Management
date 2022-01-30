@@ -50,17 +50,15 @@ class _AddProductState extends State<AddProduct> {
   bool _isLoading = false;
 
   final _formGlobalKey = GlobalKey<FormState>();
-
+  final TextEditingController _categoryController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _infoController = TextEditingController();
+  final TextEditingController _quantityController = TextEditingController();
+  final TextEditingController _costController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
   String? scanResult;
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _categoryController = TextEditingController();
-    final TextEditingController _nameController = TextEditingController();
-    final TextEditingController _infoController = TextEditingController();
-    final TextEditingController _quantityController = TextEditingController();
-    final TextEditingController _costController = TextEditingController();
-    final TextEditingController _priceController = TextEditingController();
-
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -86,7 +84,7 @@ class _AddProductState extends State<AddProduct> {
                               ),
                             ),
                             IconButton(
-                                onPressed: scanBarcode,
+                                onPressed: () => scanBarcode(),
                                 icon: Icon(
                                   Icons.qr_code_2,
                                   size: 50,
@@ -287,6 +285,10 @@ class _AddProductState extends State<AddProduct> {
                                     ),
                               ElevatedButton(
                                   onPressed: () async {
+
+
+                                    await uploadImage();
+
                                     await FirebaseFirestore.instance
                                         .collection('product')
                                         .add({
@@ -311,6 +313,10 @@ class _AddProductState extends State<AddProduct> {
                                           _expireDate.month.toString() +
                                           '/' +
                                           _expireDate.day.toString(),
+
+
+                                      'imgUrl': _theDlUrl,
+
                                     });
                                     _categoryController.clear();
                                     _nameController.clear();
@@ -349,4 +355,22 @@ class _AddProductState extends State<AddProduct> {
     if (!mounted) return;
     setState(() => this.scanResult = scanResult);
   }
+
+
+  Future<String?> uploadImage() async {
+    File _theImageFile = File(_selectedProfileImg!.path);
+    try {
+      await _firebaseStorage
+          .ref()
+          .child('Product/${_nameController.value.text}')
+          .putFile(_theImageFile)
+          .then((p) async {
+        _theDlUrl = await p.ref.getDownloadURL();
+      });
+    } catch (e) {
+      print(e);
+    }
+    return _theDlUrl;
+  }
+
 }
