@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:your_project_name/src/data_model.dart';
 
 import 'package:your_project_name/src/detailrd_pop_up.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 // Search Page
 class SearchPage extends StatefulWidget {
@@ -86,34 +87,36 @@ class _SearchPageState extends State<SearchPage> {
                         exp: productList[index].exp.toString(),
                         url: productList[index].url,
                       );
-                      return Card(
-                        child: ListTile(
-                          leading: Image.network(
-                            productList[index].url ??
-                                "https://media.istockphoto.com/vectors/abstract-black-stripes-diagonal-background-vector-id1294603953?k=20&m=1294603953&s=612x612&w=0&h=KLAV73oMUFA2ucWMMTOdXT8Vn4LVUsh6NTiXRmlX5ZA=",
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.scaleDown,
-                          ),
-                          onTap: () {
-                            popUp.openDialog();
-                          },
-                          title: Text(productList[index].name.toString()),
-                          subtitle:
-                              Text(productList[index].category.toString()),
-                          trailing: Material(
-                            color: Colors.yellow,
-                            child: SizedBox(
-                              height: 100.0,
-                              width: 100.0,
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Text(
-                                    productList[index].quantity.toString()),
+                      return  Card(
+                          child: ListTile(
+                            
+                            leading: Image.network(
+                              productList[index].url ??
+                                  "https://media.istockphoto.com/vectors/abstract-black-stripes-diagonal-background-vector-id1294603953?k=20&m=1294603953&s=612x612&w=0&h=KLAV73oMUFA2ucWMMTOdXT8Vn4LVUsh6NTiXRmlX5ZA=",
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.scaleDown,
+                            ),
+                            onTap: () {
+                              popUp.openDialog();
+                            },
+                            title: Text(productList[index].name.toString()),
+                            subtitle:
+                                Text(productList[index].category.toString()),
+                            trailing: Material(
+                              color: Colors.yellow,
+                              child: SizedBox(
+                                height: 100.0,
+                                width: 100.0,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                      productList[index].quantity.toString()),
+                                ),
                               ),
                             ),
                           ),
-                        ),
+                        
                       );
                     },
                   );
