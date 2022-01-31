@@ -27,7 +27,7 @@ class _SearchPageState extends State<SearchPage> {
             'Simple Inventory Management',
             style: TextStyle(color: Colors.black),
           ),
-          backgroundColor: Colors.grey,
+          backgroundColor: Colors.yellow,
 
           // The search area here
         ),
@@ -102,7 +102,7 @@ class _SearchPageState extends State<SearchPage> {
                           subtitle:
                               Text(productList[index].category.toString()),
                           trailing: Material(
-                            color: Colors.lightBlueAccent[200],
+                            color: Colors.yellow,
                             child: SizedBox(
                               height: 100.0,
                               width: 100.0,
@@ -136,8 +136,12 @@ class _SearchPageState extends State<SearchPage> {
               Container(
                 child: SizedBox(
                     child: FloatingActionButton(
-                  backgroundColor: Colors.red[900],
-                  child: null,
+                  backgroundColor: Colors.yellow,
+                  child: const Icon(
+                    Icons.add_box,
+                    color: Colors.black,
+                  ),
+                  // child: null,
                   shape: CircleBorder(
                       side: BorderSide(color: Colors.grey.shade800, width: 5)),
                   onPressed: () {

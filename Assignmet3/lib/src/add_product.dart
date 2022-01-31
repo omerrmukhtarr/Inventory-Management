@@ -62,7 +62,12 @@ class _AddProductState extends State<AddProduct> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          centerTitle: true,
+          backgroundColor: Colors.yellow,
+          title: Text(
+            'Add Product',
+            style: TextStyle(color: Colors.black),
+          ),
         ),
         body: Padding(
             padding: EdgeInsets.only(bottom: 10, top: 10, left: 10, right: 10),
@@ -284,44 +289,51 @@ class _AddProductState extends State<AddProduct> {
                                         ),
                                       ),
                                     ),
-                              ElevatedButton(
-                                  onPressed: () async {
-                                    await uploadImage();
+                              Container(
+                                width: 350,
+                                child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.yellow, // background
+                                      onPrimary: Colors.black, // foreground
+                                    ),
+                                    onPressed: () async {
+                                      await uploadImage();
 
-                                    await FirebaseFirestore.instance
-                                        .collection('product')
-                                        .add({
-                                      'barcode': '',
-                                      'category':
-                                          _categoryController.value.text,
-                                      'name': _nameController.value.text,
-                                      'desc': _infoController.value.text,
-                                      'quantity':
-                                          _quantityController.value.text,
-                                      'cost': _costController.value.text,
-                                      'price': _priceController.value.text,
-                                      'release': 'Release:  ' +
-                                          _releaseDate.year.toString() +
-                                          '/' +
-                                          _releaseDate.month.toString() +
-                                          '/' +
-                                          _releaseDate.day.toString(),
-                                      'expire': 'Expire:  ' +
-                                          _expireDate.year.toString() +
-                                          '/' +
-                                          _expireDate.month.toString() +
-                                          '/' +
-                                          _expireDate.day.toString(),
-                                      'url': _theDlUrl,
-                                    });
-                                    _categoryController.clear();
-                                    _nameController.clear();
-                                    _priceController.clear();
-                                    _infoController.clear();
-                                    _costController.clear();
-                                    _quantityController.clear();
-                                  },
-                                  child: Text('Add Product')),
+                                      await FirebaseFirestore.instance
+                                          .collection('product')
+                                          .add({
+                                        'barcode': '',
+                                        'category':
+                                            _categoryController.value.text,
+                                        'name': _nameController.value.text,
+                                        'desc': _infoController.value.text,
+                                        'quantity':
+                                            _quantityController.value.text,
+                                        'cost': _costController.value.text,
+                                        'price': _priceController.value.text,
+                                        'release': 'Release:  ' +
+                                            _releaseDate.year.toString() +
+                                            '/' +
+                                            _releaseDate.month.toString() +
+                                            '/' +
+                                            _releaseDate.day.toString(),
+                                        'expire': 'Expire:  ' +
+                                            _expireDate.year.toString() +
+                                            '/' +
+                                            _expireDate.month.toString() +
+                                            '/' +
+                                            _expireDate.day.toString(),
+                                        'url': _theDlUrl,
+                                      });
+                                      _categoryController.clear();
+                                      _nameController.clear();
+                                      _priceController.clear();
+                                      _infoController.clear();
+                                      _costController.clear();
+                                      _quantityController.clear();
+                                    },
+                                    child: Text('Add Product')),
+                              ),
                               SizedBox(
                                 height: 15,
                               ),
