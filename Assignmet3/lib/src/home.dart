@@ -19,6 +19,12 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+
+  TextEditingController _searchController = TextEditingController();
+  String? theSearch;
+  String dropdownValue = 'date'; //bootcoamp name
+  bool canSearch = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,15 +46,34 @@ class _SearchPageState extends State<SearchPage> {
                 children: [
                   Expanded(
                     child: TextField(
-                      // controller: _searchController,
+                      controller: _searchController,
                       decoration: InputDecoration(
-                          label: Text('search'), hintText: 'name'),
-                      onChanged: (value) {},
+                          label: Text('search'), hintText: 'Category'),
+                      onChanged: (value) {
+                        if (value.length < 1) {
+                          setState(() {
+                            canSearch = false;
+                            debugPrint(canSearch.toString());
+                          });
+                        } else {
+                          setState(() {
+                            canSearch = true;
+                            debugPrint(canSearch.toString());
+                          });
+                        }
+                      },
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      setState(() {
+                        _searchController.clear();
+                      });
+                    },
+                    // canSearch == true
+                    //     ? whatShouldIDO
+                    //     : null, //if cansearch true return something, else return null
+                    icon: Icon(Icons.clear),
                   )
                 ],
               ),
@@ -57,7 +82,17 @@ class _SearchPageState extends State<SearchPage> {
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('product')
-                    .snapshots(),
+                    .where('category', isEqualTo: _searchController.value.text)
+                    .snapshots()
+                  ..map(
+                    (docValue) => docValue.docs
+                        .map(
+                          (e) => Product.fromMap(
+                            e.data(),
+                          ),
+                        )
+                        .toList(),
+                  ),
                 builder: (context, snapshot) {
                   try {
                     if (!snapshot.hasData) {
@@ -87,40 +122,36 @@ class _SearchPageState extends State<SearchPage> {
                         exp: productList[index].exp.toString(),
                         url: productList[index].url,
                       );
-                      return  Slidable(
+                      return Slidable(
                         key: const ValueKey(0),
-                        
-                      
                         child: Card(
-                            child: ListTile(
-                              
-                              leading: Image.network(
-                                productList[index].url ??
-                                    "https://media.istockphoto.com/vectors/abstract-black-stripes-diagonal-background-vector-id1294603953?k=20&m=1294603953&s=612x612&w=0&h=KLAV73oMUFA2ucWMMTOdXT8Vn4LVUsh6NTiXRmlX5ZA=",
-                                width: 100,
-                                height: 100,
-                                fit: BoxFit.scaleDown,
-                              ),
-                              onTap: () {
-                                popUp.openDialog();
-                              },
-                              title: Text(productList[index].name.toString()),
-                              subtitle:
-                                  Text(productList[index].category.toString()),
-                              trailing: Material(
-                                color: Colors.yellow,
-                                child: SizedBox(
-                                  height: 100.0,
-                                  width: 100.0,
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                        productList[index].quantity.toString()),
-                                  ),
+                          child: ListTile(
+                            leading: Image.network(
+                              productList[index].url ??
+                                  "https://media.istockphoto.com/vectors/abstract-black-stripes-diagonal-background-vector-id1294603953?k=20&m=1294603953&s=612x612&w=0&h=KLAV73oMUFA2ucWMMTOdXT8Vn4LVUsh6NTiXRmlX5ZA=",
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.scaleDown,
+                            ),
+                            onTap: () {
+                              popUp.openDialog();
+                            },
+                            title: Text(productList[index].name.toString()),
+                            subtitle:
+                                Text(productList[index].category.toString()),
+                            trailing: Material(
+                              color: Colors.yellow,
+                              child: SizedBox(
+                                height: 100.0,
+                                width: 100.0,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                      productList[index].quantity.toString()),
                                 ),
                               ),
                             ),
-                          
+                          ),
                         ),
                       );
                     },
