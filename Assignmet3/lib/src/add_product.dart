@@ -84,7 +84,7 @@ class _AddProductState extends State<AddProduct> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Barcode Scanner",
+                              scanResult ?? 'No Code Scanned',
                               style: TextStyle(
                                 fontSize: 16,
                               ),
